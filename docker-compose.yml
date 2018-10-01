@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    php:
+        build: ./.docker/php
+        restart: always
+        volumes:
+            - .:/var/www/html
+            - ./.docker/php/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - ./.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        ports:
+            - 8080:80
+        depends_on:
+            - db
+    db:
+        image: mysql:5.7.23
+        environment:
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+            MYSQL_ROOT_PASSWORD: rootpasswd
+            MYSQL_DATABASE: dileap_logistic_lan
+        restart: always
+        ports:
+            - 3306:3306
+
